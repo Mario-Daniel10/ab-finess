@@ -21,12 +21,14 @@ class _PaymentsAndCashViewState extends State<PaymentsAndCashView> with SingleTi
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // Contenedor de pestañas adaptado a la paleta oscura / gris elegante
         Container(
-          color: Colors.blue[50],
+          color: const Color(0xFF1E1E1E),
           child: TabBar(
             controller: _tabController,
-            labelColor: Colors.blue[800],
-            unselectedLabelColor: Colors.black54,
+            labelColor: const Color(0xFFE50914), // Rojo activo AB Fitness
+            unselectedLabelColor: Colors.white60,
+            indicatorColor: const Color(0xFFE50914),
             tabs: const [
               Tab(icon: Icon(Icons.add_card, size: 20), text: 'Cobrar'),
               Tab(icon: Icon(Icons.history, size: 20), text: 'Historial / Caja'),
@@ -149,7 +151,7 @@ class _RegistrarPagoTabState extends State<RegistrarPagoTab> {
         child: ListView(
           shrinkWrap: true,
           children: [
-            const Text('Registrar Cobro / Renovación', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const Text('Registrar Cobro / Renovación', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
             const SizedBox(height: 16),
             Autocomplete<Map<String, dynamic>>(
               displayStringForOption: (option) => '${option['nombre']} (${option['telefono']})',
@@ -202,11 +204,11 @@ class _RegistrarPagoTabState extends State<RegistrarPagoTab> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('${_fechaInicio.day.toString().padLeft(2, '0')}/${_fechaInicio.month.toString().padLeft(2, '0')}/${_fechaInicio.year}',
-                      style: const TextStyle(fontSize: 16)),
+                      style: const TextStyle(fontSize: 16, color: Colors.white)),
                   TextButton.icon(
                     onPressed: () => _seleccionarFecha(context),
-                    icon: const Icon(Icons.calendar_today),
-                    label: const Text('Cambiar'),
+                    icon: const Icon(Icons.calendar_today, color: Color(0xFFE50914)),
+                    label: const Text('Cambiar', style: TextStyle(color: Color(0xFFE50914))),
                   ),
                 ],
               ),
@@ -226,14 +228,18 @@ class _RegistrarPagoTabState extends State<RegistrarPagoTab> {
             ),
             const SizedBox(height: 16),
             if (_mensaje.isNotEmpty)
-              Text(_mensaje, style: TextStyle(color: _mensaje.contains('exitosa') || _mensaje.contains('registrado') ? Colors.green : Colors.red, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+              Text(_mensaje, style: TextStyle(color: _mensaje.contains('exitosa') || _mensaje.contains('registrado') ? Colors.greenAccent : Colors.redAccent, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
             const SizedBox(height: 16),
             _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : ElevatedButton(
                     onPressed: _cobrarRenovacion,
-                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)),
-                    child: const Text('Confirmar Pago y Extender', style: TextStyle(fontSize: 16)),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      backgroundColor: const Color(0xFFE50914),
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text('Confirmar Pago y Extender', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
           ],
         ),
@@ -306,10 +312,14 @@ class _HistorialPagosTabState extends State<HistorialPagosTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Tarjeta de total en caja adaptada a oscuro con acento verde sutil
           Card(
-            color: Colors.green[50],
-            elevation: 2,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            color: const Color(0xFF1E1E1E),
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(color: Colors.green.withOpacity(0.4), width: 1),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -318,14 +328,14 @@ class _HistorialPagosTabState extends State<HistorialPagosTab> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Total en Caja', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.green)),
+                      const Text('Total en Caja', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.greenAccent)),
                       const SizedBox(height: 2),
-                      Text('${_pagosFiltrados.length} operaciones', style: const TextStyle(fontSize: 12, color: Colors.black54)),
+                      Text('${_pagosFiltrados.length} operaciones', style: const TextStyle(fontSize: 12, color: Colors.white70)),
                     ],
                   ),
                   Text(
                     '\$ ${_totalRecaudado.toStringAsFixed(2)}',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green[800]),
+                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.greenAccent),
                   ),
                 ],
               ),
@@ -410,37 +420,38 @@ class _HistorialPagosTabState extends State<HistorialPagosTab> {
             },
           ),
           const SizedBox(height: 12),
-          const Text('Listado de Pagos', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          const Text('Listado de Pagos', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
           const SizedBox(height: 8),
           Expanded(
             child: _pagosFiltrados.isEmpty
-                ? const Center(child: Text('No hay pagos registrados.'))
+                ? const Center(child: Text('No hay pagos registrados.', style: TextStyle(color: Colors.white70)))
                 : ListView.builder(
                     itemCount: _pagosFiltrados.length,
                     itemBuilder: (context, index) {
                       final p = _pagosFiltrados[index];
                       return Card(
+                        color: const Color(0xFF1E1E1E),
                         margin: const EdgeInsets.symmetric(vertical: 6),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             contentPadding: EdgeInsets.zero,
                             leading: const CircleAvatar(
-                              backgroundColor: Colors.blueAccent,
+                              backgroundColor: Color(0xFFE50914),
                               child: Icon(Icons.attach_money, color: Colors.white, size: 20),
                             ),
-                            title: Text(p['nombre_cliente']?.toString() ?? '', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                            title: Text(p['nombre_cliente']?.toString() ?? '', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white)),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 4),
-                                Text('Concepto: ${p['concepto']?.toString() ?? ''}', style: const TextStyle(fontSize: 13)),
-                                Text('Fecha: ${p['fecha_pago']?.toString() ?? ''} | Método: ${p['metodo_pago']?.toString() ?? ''}', style: const TextStyle(fontSize: 12)),
+                                Text('Concepto: ${p['concepto']?.toString() ?? ''}', style: const TextStyle(fontSize: 13, color: Colors.white70)),
+                                Text('Fecha: ${p['fecha_pago']?.toString() ?? ''} | Método: ${p['metodo_pago']?.toString() ?? ''}', style: const TextStyle(fontSize: 12, color: Colors.white60)),
                               ],
                             ),
                             trailing: Text(
                               '\$ ${p['monto']?.toString() ?? '0'}',
-                              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.green),
+                              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.greenAccent),
                             ),
                           ),
                         ),

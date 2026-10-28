@@ -22,8 +22,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'AB Fitness',
       debugShowCheckedModeBanner: false,
+      // Aplicamos el tema oscuro y la paleta de colores oficial de AB Fitness
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
+        brightness: Brightness.dark,
+        primaryColor: const Color(0xFFE50914), // Rojo intenso de la marca
+        scaffoldBackgroundColor: const Color(0xFF121212), // Fondo oscuro moderno
+        colorScheme: const ColorScheme.dark(
+          primary: Color(0xFFE50914), // Color principal para botones y elementos activos
+          secondary: Colors.white,   // Detalles secundarios
+          surface: Color(0xFF1E1E1E),  // Color para tarjetas (Cards) y contenedores
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF1A1A1A), // Barra superior oscura elegante
+          elevation: 0,
+        ),
         useMaterial3: true,
       ),
       home: initialUser == null

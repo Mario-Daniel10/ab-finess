@@ -6,7 +6,7 @@ import 'clients_view.dart';
 import 'add_client_view.dart';
 import 'payments_and_cash_view.dart';
 import 'calendar_view.dart';
-import 'expiring_subscriptions_view.dart'; // <--- ¡Última importación!
+import 'expiring_subscriptions_view.dart';
 import '../services/session_service.dart';
 import 'login_screen.dart';
 
@@ -46,7 +46,23 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('AB Fitness - ${_menuTitles[_selectedIndex]}'),
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/images/logo.png',
+              height: 28,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                _menuTitles[_selectedIndex],
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 17),
+              ),
+            ),
+          ],
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -64,21 +80,28 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           ),
         ],
       ),
-      // Si es móvil, agregamos un Drawer (menú hamburguesa)
+      // Si es móvil, agregamos un Drawer (menú hamburguesa) con el logo integrado
       drawer: isMobile
           ? Drawer(
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
                   DrawerHeader(
-                    decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+                    decoration: const BoxDecoration(color: Color(0xFF1A1A1A)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        const Text('AB FITNESS', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 4),
-                        Text(widget.user.email, style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                        Image.asset(
+                          'assets/images/logo.png',
+                          height: 38,
+                          fit: BoxFit.contain,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          widget.user.email,
+                          style: const TextStyle(color: Colors.white70, fontSize: 13),
+                        ),
                       ],
                     ),
                   ),
@@ -147,7 +170,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       case 2:
         return const PaymentsAndCashView();
       case 3:
-        return const ExpiringSubscriptionsView(); // <--- Viene de expiring_subscriptions_view.dart
+        return const ExpiringSubscriptionsView();
       case 4:
         return const TrainingTypesView();
       case 5:
