@@ -1,6 +1,6 @@
 {
-    "name": "ab_fitness",
-    "short_name": "ab_fitness",
+    "name": "nb_fitness",
+    "short_name": "nb_fitness",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
